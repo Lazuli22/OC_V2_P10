@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
-
-from softdesk.core.models import Projects, Users
+from core.models import Projects, Users
 
 
 # Create your models here.
@@ -15,9 +14,9 @@ class Contributors(models.Model):
     permission :
         A choice to define a kind of permission
     role :
-        
     """
+    CHOICES = (('ad', 'admin'), ('te', 'technicien'), ('cu', 'customer'))
     user_id = models.ForeignKey(to=Users, on_delete=CASCADE)
     project_id = models.ForeignKey(to=Projects, on_delete=CASCADE)
-    permission = models.ChoiceField()
+    permission = models.CharField(max_length=50, choices=CHOICES)
     role = models.CharField(max_length=20)

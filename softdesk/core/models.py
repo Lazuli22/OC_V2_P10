@@ -23,11 +23,8 @@ class Projects(models.Model):
             a description of the project
         type : str
             a type of the project
-        auuser : foreigner key
-            a id of ticket's author
     """
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=250)
-    type = models.CharField()
-    author_user_id = models.ForeignKey(to=Users, on_delete=models.CASCADE)
+    type = models.CharField(max_length=20)
 
