@@ -1,6 +1,17 @@
 {
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
-    "python.linting.flake8Args": ["--max-line-length=119"]
+    "python.linting.flake8Args": [
+        "--max-line-length=119"
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 10,
+            "driver": "SQLite",
+            "name": "Sqlite_Softdesk",
+            "database": "${workspaceFolder:OC_V2_P10}/softdesk/db.sqlite3"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
 
 } 
