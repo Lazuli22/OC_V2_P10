@@ -9,7 +9,7 @@ class Contributors(models.Model):
     A class to represent a person that fills in a issue
     user_id : int
         A key to user
-    project_id : 
+    project_id :
         A key to a project
     permission :
         A choice to define a kind of permission
