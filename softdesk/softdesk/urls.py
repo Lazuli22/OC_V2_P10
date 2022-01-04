@@ -19,22 +19,21 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from core.views import ProjectsViewset, IssuesViewset
 from core.views import AdminUsersViewset
-from contributor.views import ContributorsViewset
+from contributor.views import ContributorsList, ContributorDetail
 
 # Ici nous créons notre routeur
 router = routers.SimpleRouter()
 # Puis lui déclarons une url basée sur le mot clé ‘projects’ et notre view
-# afin que l’url générée soit celle que nous souhaitons ‘/api/projects/’
 router.register('projects', ProjectsViewset, basename='projects')
 router.register('issues', IssuesViewset, basename='issues')
 router.register('admin/signup', AdminUsersViewset, basename='admin-users')
 
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    # j'en suis ici...
-    # path('api/projects/<int:id>/users', ContributorsViewset),
+    path('api/projects/<int:id>/users/', ContributorsList.as_view()),
+    path('api/projects/<int:id>/users/<int:pk>/', ContributorDetail.as_view()),
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('admin/', admin.site.urls)
 ]

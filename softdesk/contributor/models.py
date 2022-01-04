@@ -15,8 +15,13 @@ class Contributors(models.Model):
         A choice to define a kind of permission
     role :
     """
-    CHOICES = (('ad', 'admin'), ('te', 'technicien'), ('cu', 'customer'))
-    user_id = models.ForeignKey(to=Users, on_delete=CASCADE)
-    project_id = models.ForeignKey(to=Projects, on_delete=CASCADE)
-    permission = models.CharField(max_length=50, choices=CHOICES)
-    role = models.CharField(max_length=20)
+    CHOICES_ROLES = (('ad', 'admin'), ('te', 'technicien'), ('cu', 'customer'))
+    CHOICES_PERM = (('R', 'read'), ('RW', 'Read_Write'), ('RWD', 'Read_Write_Delete'))
+    user = models.ForeignKey(to=Users, on_delete=CASCADE)
+    project = models.ForeignKey(to=Projects, on_delete=CASCADE)
+    permission = models.CharField(max_length=50, choices=CHOICES_PERM)
+    role = models.CharField(max_length=20,  choices=CHOICES_ROLES)
+
+    def __str__(self) -> str:
+        return self.user
+
