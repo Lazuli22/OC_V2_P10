@@ -1,12 +1,22 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Contributors
-from core.serializers import UsersSerializer
+from core.serializers import ProjectDetailSerializer
+from .models import Contributor
+from core.serializers import UserSerializer
 
 
-class ContributorsSerializer(ModelSerializer):
-
-    user = UsersSerializer()
+class ContributorSerializer(ModelSerializer):
 
     class Meta:
-        model = Contributors
+        model = Contributor
         fields = ['id', 'user', 'project', 'permission', 'role']
+
+
+class ContributorDetailSerialiser(ModelSerializer):
+
+    user = UserSerializer()
+    project = ProjectDetailSerializer()
+
+    class Meta:
+        model = Contributor
+        fields = ['id', 'user', 'project', 'permission', 'role']
+

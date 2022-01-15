@@ -12,6 +12,5 @@
             "database": "${workspaceFolder:OC_V2_P10}/softdesk/db.sqlite3"
         }
     ],
-    "sqltools.useNodeRuntime": true
-
+    "sqltools.useNodeRuntime": true,
 } 
