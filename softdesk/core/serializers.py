@@ -9,7 +9,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
 
     def validate_password(self, value: str) -> str:
         """

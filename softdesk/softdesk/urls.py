@@ -8,34 +8,37 @@ Function views
     2. Add a URL to urlpatterns:  path('', views.home, name='home')
 Class-based views
     1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home') 
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from core.views import ProjectsViewset
-from core.views import AdminUsersViewset
-from contributor.views import ContributorDetailView, ContributorsViewset
-from issue.views import IssuesList, IssueDetail
+from core.views import ProjectsViewset, AdminUsersViewset
+from issue.views import IssuesViewset, CommentsViewset
+from contributor.views import ContributorsViewset
+from rest_framework_nested import routers
 
-# Ici nous créons notre routeur
+
+# definition of base routers
 router = routers.SimpleRouter()
-# Puis lui déclarons une url basée sur le mot clé ‘projects’ et notre view
 router.register('projects', ProjectsViewset, basename='projects')
-router.register('contributors', ContributorsViewset, basename='contributors')
+
+router_projects = routers.NestedSimpleRouter(router, 'projects', lookup='projects')
+router_projects.register('contributors', ContributorsViewset, basename='contributors')
+router_projects.register('issues', IssuesViewset, basename='issues')
+
+router_issues = routers.NestedSimpleRouter(router_projects, 'issues', lookup='issues')
+router_issues.register('comments', CommentsViewset, basename='comments')
+
 router.register('admin/signup', AdminUsersViewset, basename='admin-users')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/projects/<int:id>/contributors/<int:pk>/', ContributorDetailView.as_view()),
-    path('api/projects/<int:id>/issues/', IssuesList.as_view()),
-    path('api/projects/<int:id>/issues/<int:pk>/', IssueDetail.as_view()),
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

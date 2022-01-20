@@ -1,52 +1,26 @@
-
-# from rest_framework.viewsets import ModelViewSet
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-
-from .serializers import IssueDetailSerializer, IssuesListSerializer
-from .models import Issue
+from rest_framework.viewsets import ModelViewSet
+from .serializers import IssueDetailSerializer, CommentsListSerializer, CommentDetailSerializer
+from .models import Issue, Comment
 
 
-# class IssuesViewset(ModelViewSet):
+class IssuesViewset(ModelViewSet):
 
-#     serializer_class = IssuesSerializer()
+    serializer_class = IssueDetailSerializer
 
-#     def get_queryset(self):
-#         return Issues.objects.all()
-
-
-class IssuesList(APIView):
-
-    def get(self, request, id):
-        list_issues = Issue.objects.filter(project=id)
-        serializer = IssuesListSerializer(list_issues, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, id):
-        serializer = IssueDetailSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        return Issue.objects.all()
 
 
-class IssueDetail(APIView):
+class CommentsViewset(ModelViewSet):
 
-    def get(self, request, id, pk):
-        the_issue = Issue.objects.get(id=pk)
-        serializer = IssueDetailSerializer(the_issue)
-        return Response(serializer.data)
+    serializer_class = CommentsListSerializer
 
-    def put(self, request, id, pk, format=None):
-        the_issue = Issue.objects.get(id=pk)
-        serializer = IssueDetailSerializer(the_issue, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    detail_serializer_class = CommentDetailSerializer
 
-    def delete(self, request, id, pk, format=None):
-        cont = self.get_object(pk)
-        cont.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def get_queryset(self):
+        return Comment.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return self.detail_serializer_class
+        return super().get_serializer_class()

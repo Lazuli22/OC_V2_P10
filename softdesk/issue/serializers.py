@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Issue
+from .models import Comment, Issue
 
 
 class IssueDetailSerializer(ModelSerializer):
@@ -9,8 +9,8 @@ class IssueDetailSerializer(ModelSerializer):
 
         fields = [
             'id', 'title', 'desc', 'tag', 'priority',
-            'project_id', 'status', 'author_user_id',
-            'assignee_user_id']
+            'project', 'status', 'author_user',
+            'assignee_user']
 
 
 class IssuesListSerializer(ModelSerializer):
@@ -20,3 +20,21 @@ class IssuesListSerializer(ModelSerializer):
 
         fields = [
             'id', 'title', 'priority', 'status']
+
+
+class CommentsListSerializer(ModelSerializer):
+
+    class Meta:
+        model = Comment
+
+        fields = [
+            'id', 'description', 'issue', 'author_user']
+
+
+class CommentDetailSerializer(ModelSerializer):
+
+    class Meta:
+        model = Comment
+
+        fields = [
+            'id', 'description', 'author_user', 'issue', 'created_time']

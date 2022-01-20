@@ -5,3 +5,4 @@ sqlparse==0.4.2
 tzdata==2021.5
 pytz==2021.3
 djangorestframework-simplejwt==4.7.2
+django-rest-framework-nested==0.0.1

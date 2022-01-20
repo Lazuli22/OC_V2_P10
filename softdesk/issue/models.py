@@ -5,7 +5,7 @@ from core.models import Project, User
 
 class Issue(models.Model):
     """
-    A class to represente a issue
+    A class to represent a issue
     """
     title = models.CharField(max_length=50)
     desc = models.CharField(max_length=250)
@@ -18,9 +18,9 @@ class Issue(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     """
-    A class to represente a comment in a project or for a issue
+    A class to represent a comment in a project or for a issue
     """
     description = models.CharField(max_length=250)
     author_user = models.ForeignKey(to=User, related_name="author_comment", on_delete=CASCADE, blank=True)
