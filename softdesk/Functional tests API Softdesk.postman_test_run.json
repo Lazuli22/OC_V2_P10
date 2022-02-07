@@ -1,0 +1,64 @@
+{
+	"id": "a941a2b8-d6a1-4b67-91ae-2319d8f526ef",
+	"name": "Functional tests API Softdesk",
+	"timestamp": "2022-02-01T22:54:29.816Z",
+	"collection_id": "15903465-7d87a503-f541-48e1-9817-43ad0ebf60f1",
+	"folder_id": 0,
+	"environment_id": "0395221b-437c-410a-8e2a-83934d28718a",
+	"totalPass": 0,
+	"totalFail": 5,
+	"results": [
+		{
+			"id": "57b5a465-4cad-43c3-9bd8-f4fd7fed92cc",
+			"name": "Get a token",
+			"time": 179,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Test generation token": false
+			},
+			"testPassFailCounts": {
+				"Test generation token": {
+					"pass": 0,
+					"fail": 5
+				}
+			},
+			"times": [
+				188,
+				181,
+				186,
+				181,
+				179
+			],
+			"allTests": [
+				{
+					"Test generation token": false
+				},
+				{
+					"Test generation token": false
+				},
+				{
+					"Test generation token": false
+				},
+				{
+					"Test generation token": false
+				},
+				{
+					"Test generation token": false
+				}
+			]
+		}
+	],
+	"count": 5,
+	"totalTime": 915,
+	"collection": {
+		"requests": [
+			{
+				"id": "57b5a465-4cad-43c3-9bd8-f4fd7fed92cc",
+				"method": "POST"
+			}
+		]
+	}
+}

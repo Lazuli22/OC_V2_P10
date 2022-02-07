@@ -13,6 +13,9 @@ class User(AbstractUser):
     email = models.EmailField()
     password = models.CharField(max_length=20)
 
+    def __str__(self) -> str:
+        return self.first_name+" "+self.last_name
+
 
 # Project Model
 class Project(models.Model):
