@@ -19,7 +19,7 @@ class IssuesListSerializer(ModelSerializer):
         model = Issue
 
         fields = [
-            'id', 'title', 'priority', 'status']
+            'id', 'title', 'priority', 'status', 'project', 'assignee_user', 'author_user']
 
 
 class CommentsListSerializer(ModelSerializer):
