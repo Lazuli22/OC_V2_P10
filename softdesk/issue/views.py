@@ -41,7 +41,7 @@ class IssuesViewset(ModelViewSet):
                 self.perform_update(serializer)
                 return Response({'status': 'updated issue'})
             else:
-                raise ValidationError(detail="Seul l'auteur du problème peut mettre à jour le problème!")
+                raise ValidationError(detail="Only the author of issue can update a !")
 
     def destroy(self, request, *args, **kwargs):
         if self.request.user:
@@ -69,9 +69,43 @@ class CommentsViewset(ModelViewSet):
     detail_serializer_class = CommentDetailSerializer
 
     def get_queryset(self):
+        if self.request.user:
+            connected_user = self.request.user.id
         if self.kwargs["issues__pk"] is not None:
-            id_issue = self.kwargs["issues__pk"]
-        return Comment.objects.filter(issue=id_issue)
+            id_issue = self.kwargs["issues__pk"] 
+        if self.kwargs["projects__pk"] is not None:
+            id_project = self.kwargs["projects__pk"]
+            the_project = Project.objects.get(id=id_project)
+            if connected_user == the_project.author_user.id:
+                return Comment.objects.filter(issue=id_issue)
+            else:
+                list_contr = Contributor.objects.filter(project=id_project)
+                for e in list_contr:
+                    if connected_user == e.user.id:
+                        return Comment.objects.filter(issue=id_issue)
+                raise ValidationError(detail="You are not allowed to access to commments of this project!")
+
+    def update(self, request, *args, **kwargs):
+        if self.request.user:
+            connected_user = self.request.user.id
+            a_comment = self.get_object()
+            if connected_user == a_comment.author_user.id:
+                serializer = self.get_serializer(a_comment, data=request.data)
+                serializer.is_valid(raise_exception=True)
+                self.perform_update(serializer)
+                return Response({'status': 'updated comment'})
+            else:
+                raise ValidationError(detail="Only the author of the comment can udapte it !")
+
+    def destroy(self, request, *args, **kwargs):
+        if self.request.user:
+            connected_user = self.request.user.id
+            a_comment = self.get_object()
+            if connected_user == a_comment.author_user.id:
+                a_comment.delete()
+                super().destroy(request, *args, **kwargs)
+            else:
+                raise ValidationError(detail="Only the author of the comment can delete it!")
 
     def get_serializer_class(self):
         if self.action == 'retrieve' or self.action == 'update':
