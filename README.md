@@ -1,5 +1,4 @@
-# OC_V2_P10
-## Développement d'une API Rest Django "Softdesk"
+# OC_V2_P10 : développement d'une API Rest Django "Softdesk"
 
 ## Description du projet :
 
